@@ -17,55 +17,69 @@
 </head>
 <body>
     <h1>Privacy Policy for SubTerrania</h1>
-    <p class="date">Last updated: May 13, 2026</p>
+    <p class="date">Last updated: October 9, 2026</p>
 
     <h2>Overview</h2>
-    <p>SubTerrania is a single-player, offline turn-based strategy game developed by Atlyn (Garrett Hamers). The game itself works fully offline. Starting in version 1.0.6, the app sends a small amount of <strong>anonymous diagnostic and gameplay-outcome telemetry</strong> to Azure Application Insights when an internet connection is available, so we can detect crashes and understand which difficulties / characters / maps are most popular. We never collect personal information.</p>
+    <p>SubTerrania is a single-player turn-based strategy game developed by Atlyn (Garrett Hamers). All gameplay runs on your device and the game is playable without a network connection. When diagnostic reporting is configured in the build and the corresponding in-app switch is on, the app sends <strong>diagnostic and gameplay-outcome telemetry</strong> to Microsoft Azure Application Insights to help us detect crashes and balance the game. As of version 1.3.0, you can turn crash reports and usage analytics off independently inside the app. This policy applies to the Android game, not to Atlyn website accounts or Power BI products.</p>
+
+    <p>The game has no player accounts, advertising SDKs, or in-app purchases. The information described below is used for diagnostics and analytics, not advertising.</p>
 
     <h2>What We Collect</h2>
 
     <h3>Diagnostic telemetry (Azure Application Insights)</h3>
-    <p>When your device has an internet connection, SubTerrania sends the following <strong>non-personal</strong> events to Azure Monitor (operated by Microsoft):</p>
+    <p>When diagnostic reporting is configured, your device has an internet connection, and the matching switch is on, SubTerrania sends the following events to Azure Monitor (operated by Microsoft):</p>
     <ul class="tight">
         <li><code>app_start</code> — every time the app launches</li>
         <li><code>game_started</code> — with the chosen difficulty, character, and map</li>
         <li><code>game_won</code> / <code>game_lost</code> — with difficulty, character, map, turn number, and victory points earned</li>
-        <li><code>feedback_sent</code> — when you tap "Send feedback" in the in-app settings</li>
+        <li><code>active_game_persistence_failed</code> — when saving or loading your resumable game fails, with which operation failed (<code>save</code>, <code>load</code>, or <code>clear</code>) and nothing else</li>
+        <li><code>game_completion_persistence_failed</code> — when recording a finished game fails, with the failure-stage enum name</li>
+        <li><code>game_completion_exit_refused</code> — when leaving a finished game is refused because its result is not recorded, with the fixed reason <code>completion_unrecorded</code></li>
+        <li><code>meta_progression_persistence_failed</code> — when saving a non-completion progression/settings change fails, with the fixed operation <code>settings</code></li>
+        <li><code>feedback_sent</code> — when you tap the feedback option in the in-app settings. This records only that you opened your mail app; the message you write is composed and sent by your own mail app and never reaches us through telemetry.</li>
         <li>Uncaught exceptions (crashes) including the stack trace, exception type, and message — but no game contents</li>
     </ul>
-    <p>Each event also includes the app version (e.g. <code>1.0.6</code>), Android API level (e.g. <code>34</code>), and device model name (e.g. <code>"Pixel 6"</code>). A randomly-generated session-instance ID is included with each batch but is not persisted across launches and cannot be tied to any account or device fingerprint.</p>
+    <p>Each event also includes the app version, Android API level, and device model name. A randomly-generated instance ID is regenerated for every envelope rather than persisted as a player, device, or installation identifier. Crash reports also include the exception message and stack trace supplied by the crashing code.</p>
 
-    <h3>What we do NOT collect</h3>
+    <h3>Approximate network location</h3>
+    <p>Microsoft Azure necessarily receives a connection IP address when processing an HTTPS request. Azure derives approximate geographic information, such as a network region, from that address and retains it with the diagnostic records. Raw client IP addresses are masked in our telemetry records. Masking the stored IP does not prevent this geographic derivation. The game does not request Android location permissions, GPS coordinates, or precise device location.</p>
+
+    <h3>What the game does not request or send</h3>
     <ul class="tight">
         <li>Your name, email, account identifier, or any contact information</li>
-        <li>Your IP address (Azure ingestion logs the connection IP for abuse prevention but we never query or analyse it)</li>
         <li>Your game-save contents, board layouts, or any free-form text you might type</li>
         <li>Any persistent device or installation identifier (no advertising ID, no Android ID, no install UUID)</li>
-        <li>Your contacts, location, camera, microphone, files, or browsing history</li>
+        <li>Your contacts, GPS coordinates or precise location, camera, microphone, files, or browsing history</li>
     </ul>
 
     <h2>Permissions</h2>
-    <p>The app requests only two permissions:</p>
+    <p>The game uses these permissions for its own functionality:</p>
     <ul class="tight">
         <li><strong><code>VIBRATE</code></strong> — for haptic feedback during gameplay. No data collection.</li>
-        <li><strong><code>INTERNET</code></strong> — used solely to send the telemetry described above to Azure Application Insights. The app never accepts inbound connections, and gameplay continues to work fully if the network is unavailable (telemetry is silently dropped).</li>
+        <li><strong><code>INTERNET</code></strong> — used solely to send the telemetry described above to Azure Application Insights. The app never accepts inbound connections, and gameplay continues to work if the network is unavailable (telemetry is silently dropped).</li>
     </ul>
 
     <h2>Third-Party Services</h2>
     <p>SubTerrania uses one third-party service:</p>
     <ul class="tight">
-        <li><strong>Microsoft Azure Application Insights</strong> — receives the diagnostic telemetry described above. See <a href="https://privacy.microsoft.com/en-us/privacystatement">Microsoft's privacy statement</a> for how Microsoft handles data sent to its services.</li>
+        <li><strong>Microsoft Azure Application Insights</strong> — receives the diagnostic telemetry described above as our data processor. See <a href="https://privacy.microsoft.com/en-us/privacystatement">Microsoft's privacy statement</a> for how Microsoft handles data sent to its services.</li>
     </ul>
     <p>The app does not integrate with any analytics SDK, advertising network, social-media SDK, or third-party login provider.</p>
 
     <h2>Data Retention</h2>
-    <p>Telemetry is retained for 90 days in our Azure workspace and then automatically deleted. Because we don't collect any identifier that ties events back to you, there is no way for us to delete a specific user's data on request — but there is no personal data to delete.</p>
+    <p>Our diagnostic event and exception tables have a 90-day retention period; records expire under that retention policy. The telemetry has no persistent player, device, or installation identifier for locating one person's records on request. Turning the switches off stops future collection but does not delete records already transmitted. Contact us for a privacy inquiry or to discuss these practices.</p>
 
     <h2>Opting Out</h2>
-    <p>To stop the app from sending any telemetry, simply put your device in airplane mode or revoke the app's network access in Android settings. The game itself will continue to work normally; only the diagnostic events will stop. (A future release may add an in-app opt-out toggle.)</p>
+    <p>Open <strong>Settings</strong> inside the app and find the <strong>Privacy</strong> section. It contains two independent switches:</p>
+    <ul class="tight">
+        <li><strong>Crash reports</strong> — the crash stack traces described above.</li>
+        <li><strong>Usage analytics</strong> — the named gameplay events described above.</li>
+    </ul>
+    <p>Both are on by default and either can be turned off at any time. Turning one off takes effect immediately: those sends stop, and anything already queued on your device but not yet transmitted is discarded rather than sent later. With both switches off, the telemetry system does not start at all — no background worker and no crash handler are installed.</p>
+    <p>Earlier versions of this page suggested disabling the app's network access in Android settings. That advice was wrong: Android does not offer a way to withdraw the ordinary <code>INTERNET</code> permission from an installed app. The in-app switches are the real control, and they are the only one you need.</p>
 
     <h2>Children's Privacy</h2>
-    <p>SubTerrania is rated for all ages and does not target children under 13. We do not knowingly collect personal information from anyone, including children. The diagnostic telemetry described above does not include any data that could identify a child or any specific user.</p>
+    <p>SubTerrania is not directed at children under 13. It has no player accounts and does not request names, contacts, advertising identifiers, or precise device location. The diagnostic and processor-derived information described in this policy is still collected when reporting is enabled.</p>
 
     <h2>Changes to This Policy</h2>
     <p>If we make changes, we will update the "Last updated" date and add an entry to the changelog below.</p>
@@ -73,7 +87,9 @@
     <div class="changelog">
         <strong>Changelog</strong>
         <ul>
-            <li><strong>2026-05-13 (v1.0.6)</strong> — Added Azure Application Insights diagnostic telemetry (anonymous; lifecycle events + crash reports only). Added <code>INTERNET</code> permission. Updated all sections to disclose the change. Game still works fully offline.</li>
+            <li><strong>2026-10-09 (v1.3.5)</strong> — Added a public policy action in Settings. Disclosed three existing completion/progression failure signals and corrected the disclosure of approximate geographic information derived by Azure from network addresses. Clarified the difference between stopping collection and deleting records, and verified 90-day retention on the diagnostic tables. These disclosures describe existing processing rather than introducing a new telemetry event or changing gameplay.</li>
+            <li><strong>2026-05-20 (v1.3.0)</strong> — Added in-app <strong>Crash reports</strong> and <strong>Usage analytics</strong> switches in Settings, and corrected the "Opting Out" section, which previously described a workaround Android does not support. Disclosed the <code>active_game_persistence_failed</code> event, which had been sent but not documented. Linked this page to the machine-checked telemetry inventory, which is now the single source of truth for what is collected. Clarified IP handling and the per-envelope instance ID.</li>
+            <li><strong>2026-05-13 (v1.0.6)</strong> — Added Azure Application Insights diagnostic telemetry (anonymous; lifecycle events + crash reports only). Added <code>INTERNET</code> permission. Updated all sections to disclose the change.</li>
             <li><strong>2026-04-30 (v1.0.0)</strong> — Initial publication.</li>
         </ul>
     </div>
